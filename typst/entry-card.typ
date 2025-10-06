@@ -60,13 +60,10 @@
     rows: (1fr, 1fr),
     row-gutter: 10pt,
     column-gutter: 10pt,
-    fill: (x, y) =>
-    if calc.even(x + y) { luma(230) }
-    else { luma(180) },
-    rotate(90deg, reflow: true)[#judgesSide], // top left
-    rotate(270deg, reflow: true)[#contactSide], // top right
-    rotate(90deg, reflow: true)[#contactSide], // bottom left
-    rotate(270deg, reflow: true)[#judgesSide], // bottom right
+    align(right, rotate(90deg, reflow: true)[#align(left, judgesSide)]), // top left
+    align(left, rotate(270deg, reflow: true)[#align(left, contactSide)]), // top right
+    align(right, rotate(90deg, reflow: true)[#align(left, contactSide)]), // bottom left
+    align(left, rotate(270deg, reflow: true)[#align(left, judgesSide)]), // bottom right
   )
 ]
 
