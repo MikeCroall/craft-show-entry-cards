@@ -1,21 +1,38 @@
-#set text(font: "Arial")
+#set text(font: "Liberation Sans")
 
 #let header = [
   #let year = datetime.today().year()
   = Bourne End Junior Craft Show #year
 ]
 
-#let judges_side = [
-  #header \
-  *Class* ... \
-  ... \
-  *Entrant's Age* ... \
+#let dottedLineFillWidth = [
+  #set line(length: 100%)
+  #line(stroke: (paint: black, thickness: 1pt, dash: "loosely-dotted"))
+]
 
-// todo replace ... with actual lines https://typst.app/docs/reference/visualize/stroke/
+#let gridRequestedData(title) = [
+  #grid(
+    columns: (auto, 1fr),
+    column-gutter: 0.9em,
+    align: horizon,
+    text(weight: "bold")[
+      #title
+    ],
+    align(bottom, [
+      #dottedLineFillWidth
+    ])
+  )
+]
+
+#let judgesSide = [
+  #header \
+  #gridRequestedData("Class") \
+  #dottedLineFillWidth \
+  #gridRequestedData("Entrant's Age") \
 
   #align(center, text(weight: "bold")[
     #underline[This side up for judging!]
   ])
 ]
 
-#judges_side
+#judgesSide
