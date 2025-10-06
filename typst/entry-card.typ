@@ -1,3 +1,7 @@
+#set page(margin: (
+  rest: 0.5em,
+))
+
 #set text(font: "Liberation Sans")
 
 #let header = [
