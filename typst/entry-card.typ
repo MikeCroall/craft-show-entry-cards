@@ -81,12 +81,12 @@
 
 #place(
   horizon + left,
-  dx: 50% - 5em,
+  dx: 50% - 4em,
   box(fill: white, image("scissors.svg", height: 2em))
 )
 
 #place(
   top + center,
-  dy: 50% - 5em,
-  box(fill: white, image("fold.svg", height: 1.5em))
+  dy: 50% - 4em,
+  box(fill: white, image("fold.svg", height: 1.75em))
 )
