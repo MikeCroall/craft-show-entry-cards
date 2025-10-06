@@ -39,7 +39,9 @@
   gridRequestedData("Entrant's Age"),
 
   align(center, text(weight: "bold")[
-    #underline[This side up for judging!]
+    #underline(evade:false, offset: 1pt, [
+      This side up for judging!
+    ])
   ])
 ))
 
