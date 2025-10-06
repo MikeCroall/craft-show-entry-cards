@@ -31,7 +31,9 @@
 #let judgesSideStack = align(left, stack(
   dir: ttb,
   spacing: 3em,
+
   header,
+
   gridRequestedData("Class"),
   dottedLineFillWidth,
   gridRequestedData("Entrant's Age"),
@@ -44,7 +46,9 @@
 #let contactSide = align(left, stack(
   dir: ttb,
   spacing: 3em,
+
   header,
+
   gridRequestedData("Description or Title of Entry"),
   dottedLineFillWidth,
   dottedLineFillWidth,
@@ -62,10 +66,12 @@
   #grid(
     columns: (1fr, 1fr),
     rows: (1fr, 1fr),
-    row-gutter: 10pt,
-    column-gutter: 10pt,
+    inset: 10pt,
+
     align(right, rotate(90deg, reflow: true)[#judgesSideStack]), // top left
+    grid.vline(stroke:(paint: black, thickness: 1pt, dash: "loosely-dash-dotted")),
     align(left, rotate(-90deg, reflow: true)[#contactSide]), // top right
+    grid.hline(stroke:(paint: black, thickness: 1pt)),
     align(right, rotate(90deg, reflow: true)[#contactSide]), // bottom left
     align(left, rotate(-90deg, reflow: true)[#judgesSideStack]), // bottom right
   )
