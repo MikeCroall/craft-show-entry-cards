@@ -65,9 +65,9 @@
     row-gutter: 10pt,
     column-gutter: 10pt,
     align(right, rotate(90deg, reflow: true)[#judgesSideStack]), // top left
-    align(left, rotate(270deg, reflow: true)[#contactSide]), // top right
+    align(left, rotate(-90deg, reflow: true)[#contactSide]), // top right
     align(right, rotate(90deg, reflow: true)[#contactSide]), // bottom left
-    align(left, rotate(270deg, reflow: true)[#judgesSideStack]), // bottom right
+    align(left, rotate(-90deg, reflow: true)[#judgesSideStack]), // bottom right
   )
 ]
 
