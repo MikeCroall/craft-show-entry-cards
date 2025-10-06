@@ -2,7 +2,7 @@
 
 #let header = [
   #let year = datetime.today().year()
-  = Bourne End Junior Craft Show #year
+  #text(size: 1.8em)[Bourne End Junior Craft Show #year] \
 ]
 
 #let dottedLineFillWidth = [
@@ -13,9 +13,9 @@
 #let gridRequestedData(title) = [
   #grid(
     columns: (auto, 1fr),
-    column-gutter: 0.9em,
+    column-gutter: 0.7em,
     align: horizon,
-    text(weight: "bold")[
+    text(size: 1.5em)[
       #title
     ],
     align(bottom, [
@@ -43,7 +43,7 @@
   #gridRequestedData("Entrant's Name") \
   #gridRequestedData("Contact Details") \
 
-  #align(center, [
+  #align(center, text(size: 10pt)[
     By entering, you agree to photos of your entry being used on our website
     and in local publications, and to storage of your contact details so you may be contacted
     if your entry wins a prize that you are not there to collect.
@@ -54,14 +54,16 @@
   #grid(
     columns: (1fr, 1fr),
     rows: (1fr, 1fr),
-    gutter: 10pt,
+    row-gutter: 10pt,
+    column-gutter: 10pt,
+    fill: (x, y) =>
+    if calc.even(x + y) { luma(230) }
+    else { luma(180) },
     rotate(90deg, reflow: true)[#judgesSide],
-    rotate(-90deg, reflow: true)[#contactSide],
+    rotate(270deg, reflow: true)[#contactSide],
     rotate(90deg, reflow: true)[#contactSide],
-    rotate(-90deg, reflow: true)[#judgesSide],
+    rotate(270deg, reflow: true)[#judgesSide],
   )
 ]
 
-//#judgesSide
-//#contactSide
 #pageQuadrants
