@@ -1,4 +1,5 @@
 use derive_typst_intoval::{IntoDict, IntoValue};
+use typst::foundations::IntoValue;
 use typst_as_lib::TypstEngine;
 
 static TEMPLATE_FILE: &str = include_str!("../typst/entry-card.typ");
@@ -8,11 +9,18 @@ static FONT_BOLD: &[u8] =
     include_bytes!("/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf");
 static OUT_FILE: &str = "./typst/entry-card-rust-out.pdf";
 
-#[derive(Debug, Clone, IntoValue, IntoDict)]
-struct TypstInputs {}
+#[derive(Debug, Default, Clone, IntoValue, IntoDict)]
+struct TypstInputs {
+    year: Option<i32>,
+    contact_details: Option<String>,
+    entrants_name: Option<String>,
+    entrants_age: Option<String>,
+}
 
 fn main() {
-    let inputs = TypstInputs {};
+    let inputs = TypstInputs {
+        ..Default::default()
+    };
 
     let template = TypstEngine::builder()
         .main_file(TEMPLATE_FILE)

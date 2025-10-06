@@ -1,3 +1,5 @@
+#import sys: inputs
+
 #set page(margin: (
   rest: 0.5em,
 ))
@@ -5,7 +7,7 @@
 #set text(font: "Liberation Sans")
 
 #let header = [
-  #let year = datetime.today().year()
+  #let year = if inputs.year != none { inputs.year } else { datetime.today().year() }
   #text(size: 1.8em)[Bourne End Junior Craft Show #year] \
 ]
 
@@ -92,3 +94,10 @@
   dy: 50% - 4em,
   box(fill: white, image("icons/fold.svg", height: 1.75em))
 )
+
+/*
+todo check the following fields on `inputs` and render if present
+contact_details
+entrants_name
+entrants_age
+*/
