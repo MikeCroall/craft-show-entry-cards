@@ -35,4 +35,33 @@
   ])
 ]
 
-#judgesSide
+#let contactSide = [
+  #header \
+  #gridRequestedData("Description or Title of Entry") \
+  #dottedLineFillWidth \
+  #dottedLineFillWidth \
+  #gridRequestedData("Entrant's Name") \
+  #gridRequestedData("Contact Details") \
+
+  #align(center, [
+    By entering, you agree to photos of your entry being used on our website
+    and in local publications, and to storage of your contact details so you may be contacted
+    if your entry wins a prize that you are not there to collect.
+  ])
+]
+
+#let pageQuadrants = [
+  #grid(
+    columns: (1fr, 1fr),
+    rows: (1fr, 1fr),
+    gutter: 10pt,
+    rotate(90deg, reflow: true)[#judgesSide],
+    rotate(-90deg, reflow: true)[#contactSide],
+    rotate(90deg, reflow: true)[#contactSide],
+    rotate(-90deg, reflow: true)[#judgesSide],
+  )
+]
+
+//#judgesSide
+//#contactSide
+#pageQuadrants
