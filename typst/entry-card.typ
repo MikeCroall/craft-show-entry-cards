@@ -63,10 +63,10 @@
     fill: (x, y) =>
     if calc.even(x + y) { luma(230) }
     else { luma(180) },
-    rotate(90deg, reflow: true)[#judgesSide],
-    rotate(270deg, reflow: true)[#contactSide],
-    rotate(90deg, reflow: true)[#contactSide],
-    rotate(270deg, reflow: true)[#judgesSide],
+    rotate(90deg, reflow: true)[#judgesSide], // top left
+    rotate(270deg, reflow: true)[#contactSide], // top right
+    rotate(90deg, reflow: true)[#contactSide], // bottom left
+    rotate(270deg, reflow: true)[#judgesSide], // bottom right
   )
 ]
 
