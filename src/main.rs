@@ -1,42 +1,59 @@
-use derive_typst_intoval::{IntoDict, IntoValue};
-use typst::foundations::IntoValue;
-use typst_as_lib::TypstEngine;
+mod app;
+mod render;
 
-static TEMPLATE_FILE: &str = include_str!("../typst/entry-card.typ");
-static FONT: &[u8] =
-    include_bytes!("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf");
-static FONT_BOLD: &[u8] =
-    include_bytes!("/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf");
-static OUT_FILE: &str = "./typst/entry-card-rust-out.pdf";
+use app::App;
+// use render::render_to_file;
 
-#[derive(Debug, Default, Clone, IntoValue, IntoDict)]
-struct TypstInputs {
-    year: Option<i32>,
-    contact_details: Option<String>,
-    entrants_name: Option<String>,
-    entrants_age: Option<String>,
-}
+use leptos::mount::mount_to_body;
 
 fn main() {
-    let inputs = TypstInputs {
-        ..Default::default()
-    };
-
-    let template = TypstEngine::builder()
-        .main_file(TEMPLATE_FILE)
-        .fonts([FONT, FONT_BOLD])
-        .with_file_system_resolver("./typst")
-        .build();
-
-    let doc = template
-        .compile_with_input(inputs.into_dict())
-        .output
-        .expect("typst compile error");
-
-    let options = Default::default();
-    let pdf = typst_pdf::pdf(&doc, &options).expect("pdf generation error");
-
-    std::fs::write(OUT_FILE, pdf).expect("pdf write error");
-
-    println!("Wrote out to {OUT_FILE}");
+    console_error_panic_hook::set_once();
+    mount_to_body(App);
+    // render_to_file();
 }
+
+/*
+
+Taken from: https://medium.com/@syntaxSavage/the-night-i-realized-my-web-apps-didnt-need-servers-anymore-5e6418d0e33e
+
+Rust Code
+
+// src/lib.rs
+use wasm_bindgen::prelude::*;
+use pulldown_cmark::{html, Parser};
+
+
+#[wasm_bindgen]
+pub fn render_markdown(input: &str) -> String {
+    let parser = Parser::new(input);
+    let mut html_output = String::new();
+    html::push_html(&mut html_output, parser);
+    html_output
+}
+
+Build
+
+cargo build --target wasm32-unknown-unknown --release
+wasm-bindgen target/wasm32-unknown-unknown/release/markdown_renderer.wasm \
+  --out-dir ./pkg --target web
+
+Browser Integration
+
+<textarea id="editor"># Hello World</textarea>
+<div id="preview"></div>
+
+
+<script type="module">
+  import init, { render_markdown } from "./pkg/markdown_renderer.js";
+  async function start() {
+    await init();
+    const editor = document.getElementById("editor");
+    const preview = document.getElementById("preview");
+    editor.addEventListener("input", () => {
+      preview.innerHTML = render_markdown(editor.value);
+    });
+    preview.innerHTML = render_markdown(editor.value);
+  }
+  start();
+</script>
+*/
