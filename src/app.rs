@@ -1,6 +1,6 @@
-use crate::render::{render_to_bytes, TypstInputs};
+use crate::render::{TypstInputs, render_to_bytes};
 
-use base64::{engine::general_purpose, Engine as _};
+use base64::{Engine as _, engine::general_purpose};
 use leptos::prelude::*;
 
 fn some_if_not_blank(signal_in: ReadSignal<String>) -> Option<String> {
