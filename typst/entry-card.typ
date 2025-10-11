@@ -17,7 +17,6 @@
 ]
 
 #let dottedLineFillWidthWithValue(value) = [
-  #set line(length: 100%)
   #place(bottom, dottedLineFillWidth)
   #place(text(size: 1.5em, font: "Patrick Hand")[
     #value
@@ -107,9 +106,3 @@
   box(fill: white, image("icons/fold.svg", height: 1.75em))
 )
 
-/*
-todo check the following fields on `inputs` and render if present
-contact_details
-entrants_name
-entrants_age
-*/
