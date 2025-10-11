@@ -16,7 +16,7 @@
   #line(stroke: (paint: black, thickness: 1pt, dash: "loosely-dotted"))
 ]
 
-#let gridRequestedData(title) = [
+#let gridRequestedData(title, input: none) = [
   #grid(
     columns: (auto, 1fr),
     column-gutter: 0.7em,
@@ -25,7 +25,7 @@
       #title
     ],
     align(bottom, [
-      #dottedLineFillWidth
+      #if input != none { input } else { dottedLineFillWidth }
     ])
   )
 ]
