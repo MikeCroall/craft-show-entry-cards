@@ -16,7 +16,7 @@
   #line(stroke: (paint: black, thickness: 1pt, dash: "loosely-dotted"))
 ]
 
-#let gridRequestedData(title, input: none) = [
+#let gridRequestedData(title, value: none) = [
   #grid(
     columns: (auto, 1fr),
     column-gutter: 0.7em,
@@ -25,11 +25,14 @@
       #title
     ],
     align(bottom, [
-      #if input != none { input } else { dottedLineFillWidth }
+      #if value != none { text(size: 1.5em)[ // TODO handwriting font?
+          #value // TODO support showing dotted line even when value is present
+        ]} else { dottedLineFillWidth }
     ])
   )
 ]
 
+#let entrants_age = if ("entrants_age" in inputs) { inputs.entrants_age } else { none }
 #let judgesSideStack = align(left, stack(
   dir: ttb,
   spacing: 3em,
@@ -38,7 +41,7 @@
 
   gridRequestedData("Class"),
   dottedLineFillWidth,
-  gridRequestedData("Entrant's Age"),
+  gridRequestedData("Entrant's Age", value: entrants_age),
 
   align(center, text(weight: "bold")[
     #underline(evade:false, offset: 1pt, [
@@ -47,6 +50,9 @@
   ])
 ))
 
+
+#let entrants_name = if ("entrants_name" in inputs) { inputs.entrants_name } else { none }
+#let contact_details = if ("contact_details" in inputs) { inputs.contact_details } else { none }
 #let contactSide = align(left, stack(
   dir: ttb,
   spacing: 3em,
@@ -56,8 +62,8 @@
   gridRequestedData("Description or Title of Entry"),
   dottedLineFillWidth,
   dottedLineFillWidth,
-  gridRequestedData("Entrant's Name"),
-  gridRequestedData("Contact Details"),
+  gridRequestedData("Entrant's Name", value: entrants_name),
+  gridRequestedData("Contact Details", value: contact_details),
 
   align(center, text(size: 10pt)[
     By entering, you agree to photos of your entry being used on our website
