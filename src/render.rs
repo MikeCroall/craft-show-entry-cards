@@ -35,3 +35,22 @@ pub fn render_to_bytes(inputs: TypstInputs) -> Vec<u8> {
 
     typst_pdf::pdf(&doc, &options).expect("pdf generation error")
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::render::render_to_bytes;
+
+    #[test]
+    fn typst_compiles() {
+        let _ = render_to_bytes(Default::default());
+    }
+
+    #[test]
+    fn typst_compiles_with_inputs() {
+        let _ = render_to_bytes(super::TypstInputs {
+            contact_details: Some("Example Contact Details".to_string()),
+            entrants_name: None,
+            entrants_age: Some("12".to_string()),
+        });
+    }
+}
