@@ -7,7 +7,7 @@
 #set text(font: "Liberation Sans")
 
 #let header = [
-  #let year = if inputs.year != none { inputs.year } else { datetime.today().year() }
+  #let year = datetime.today().year()
   #text(size: 1.8em)[Bourne End Junior Craft Show #year] \
 ]
 
