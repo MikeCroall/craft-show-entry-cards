@@ -79,6 +79,9 @@ jobs:
                   override: true
                   components: rustfmt, clippy
 
+            - name: Install trunk for WASM build
+              uses: taiki-e/install-action@trunk
+
             - name: Build wasm page
               run: |
                   trunk build --release
