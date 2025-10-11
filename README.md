@@ -1,3 +1,3 @@
 # Craft Show Entry Cards
 
-[See last dev-generated entry cards here](typst/entry-card.pdf)
+[Try it out!](https://mikecroall.github.io/craft-show-entry-cards/)
