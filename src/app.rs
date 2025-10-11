@@ -38,6 +38,6 @@ pub fn App() -> impl IntoView {
         <br />
         <button on:click=move |_| {}>"Save Entry Card PDF"</button>
         <br />
-        <embed src=embed_pdf_src />
+        <embed src=embed_pdf_src width="100%" height="800px" />
     }
 }
