@@ -3,10 +3,9 @@ use typst::foundations::IntoValue;
 use typst_as_lib::TypstEngine;
 
 static TEMPLATE_FILE: &str = include_str!("../typst/entry-card.typ");
-static FONT: &[u8] =
-    include_bytes!("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf");
-static FONT_BOLD: &[u8] =
-    include_bytes!("/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf");
+static FONT: &[u8] = include_bytes!("../typst/fonts/LiberationSans-Regular.ttf");
+static FONT_BOLD: &[u8] = include_bytes!("../typst/fonts/LiberationSans-Bold.ttf");
+static FONT_HANDWRITE: &[u8] = include_bytes!("../typst/fonts/PatrickHand-Regular.ttf");
 static SCISSORS_SVG: &[u8] = include_bytes!("../typst/icons/scissors.svg");
 static FOLD_SVG: &[u8] = include_bytes!("../typst/icons/fold.svg");
 
@@ -20,7 +19,7 @@ pub struct TypstInputs {
 pub fn render_to_bytes(inputs: TypstInputs) -> Vec<u8> {
     let template = TypstEngine::builder()
         .main_file(TEMPLATE_FILE)
-        .fonts([FONT, FONT_BOLD])
+        .fonts([FONT, FONT_BOLD, FONT_HANDWRITE])
         .with_static_file_resolver([
             ("icons/scissors.svg", SCISSORS_SVG),
             ("icons/fold.svg", FOLD_SVG),

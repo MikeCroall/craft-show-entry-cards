@@ -16,6 +16,14 @@
   #line(stroke: (paint: black, thickness: 1pt, dash: "loosely-dotted"))
 ]
 
+#let dottedLineFillWidthWithValue(value) = [
+  #set line(length: 100%)
+  #place(bottom, dottedLineFillWidth)
+  #place(text(size: 1.5em, font: "Patrick Hand")[
+    #value
+  ])
+]
+
 #let gridRequestedData(title, value: none) = [
   #grid(
     columns: (auto, 1fr),
@@ -25,9 +33,7 @@
       #title
     ],
     align(bottom, [
-      #if value != none { text(size: 1.5em)[ // TODO handwriting font?
-          #value // TODO support showing dotted line even when value is present
-        ]} else { dottedLineFillWidth }
+      #if value != none { dottedLineFillWidthWithValue(value) } else { dottedLineFillWidth }
     ])
   )
 ]

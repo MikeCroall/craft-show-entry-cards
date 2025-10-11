@@ -13,7 +13,7 @@ pub fn App() -> impl IntoView {
     let (entrants_name, set_entrants_name) = signal("".to_string());
     let (entrants_age, set_entrants_age) = signal("".to_string());
 
-    let pdf_base64 = Memo::new(move |_| {
+    let embed_pdf_src = Memo::new(move |_| {
         let contact_details = some_if_not_blank(contact_details);
         let entrants_name = some_if_not_blank(entrants_name);
         let entrants_age = some_if_not_blank(entrants_age);
@@ -22,9 +22,9 @@ pub fn App() -> impl IntoView {
             entrants_name,
             entrants_age,
         });
-        general_purpose::STANDARD.encode(&raw_pdf)
+        let base64_pdf = general_purpose::STANDARD.encode(&raw_pdf);
+        format!("data:application/pdf;base64,{}", base64_pdf)
     });
-    let embed_pdf_src = move || format!("data:application/pdf;base64,{}", pdf_base64.get());
 
     view! {
         <label>"Contact Details"</label>
