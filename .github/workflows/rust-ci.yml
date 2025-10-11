@@ -72,10 +72,23 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
+            - name: Use dependencies cache
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      ~/.cargo/bin/
+                      ~/.cargo/registry/index/
+                      ~/.cargo/registry/cache/
+                      ~/.cargo/git/db/
+                      target/
+                  key: ${{ runner.os }}-cargo-web-${{ hashFiles('**/Cargo.lock') }}
+                  restore-keys: ${{ runner.os }}-cargo-web-
+
             - name: Install Rust Stable
               uses: actions-rs/toolchain@v1
               with:
                   toolchain: stable
+                  target: wasm32-unknown-unknown
                   override: true
                   components: rustfmt, clippy
 
