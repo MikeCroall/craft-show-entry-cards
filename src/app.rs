@@ -28,25 +28,19 @@ pub fn App() -> impl IntoView {
         Memo::new(move |_| format!("data:application/pdf;base64,{}", base64_pdf.get()));
 
     view! {
-        <label>"Contact Details"</label>
-        <input type="text" bind:value=(contact_details, set_contact_details) />
-        <br />
-        <label>"Entrant's Name"</label>
-        <input type="text" bind:value=(entrants_name, set_entrants_name) />
-        <br />
-        <label>"Entrant's Age"</label>
-        <input type="text" bind:value=(entrants_age, set_entrants_age) />
-        <br />
-        <a href=embed_pdf_src download="prefilled-entry-card.pdf" target="_blank">
-            "Save Pre-filled Entry Card PDF"
-        </a>
-        <!-- "todo print button/link" -->
-        <br />
-        <embed
-            src=embed_pdf_src
-            title="Pre-filled Entry Card Preview"
-            width="100%"
-            height="800px"
-        />
+        <div class="outer-container">
+            <div class="inputs-container">
+                <label>"Contact Details"</label>
+                <input type="text" bind:value=(contact_details, set_contact_details) />
+                <label>"Entrant's Name"</label>
+                <input type="text" bind:value=(entrants_name, set_entrants_name) />
+                <label>"Entrant's Age"</label>
+                <input type="number" bind:value=(entrants_age, set_entrants_age) />
+                <a href=embed_pdf_src download="prefilled-entry-card.pdf" target="_blank">
+                    <button type="button">"Save Pre-filled Entry Card PDF"</button>
+                </a>
+            </div>
+            <embed class="embed-pdf" src=embed_pdf_src title="Pre-filled Entry Card Preview" />
+        </div>
     }
 }
