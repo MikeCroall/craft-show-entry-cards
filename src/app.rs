@@ -40,6 +40,7 @@ pub fn App() -> impl IntoView {
         <a href=embed_pdf_src download="prefilled-entry-card.pdf" target="_blank">
             "Save Pre-filled Entry Card PDF"
         </a>
+        <!-- "todo print button/link" -->
         <br />
         <embed
             src=embed_pdf_src
