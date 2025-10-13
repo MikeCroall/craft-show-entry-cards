@@ -44,7 +44,7 @@ pub fn App() -> impl IntoView {
                 <label>"Entrant's Name"</label>
                 <input type="text" bind:value=(entrants_name, set_entrants_name) />
                 <label>"Entrant's Age"</label>
-                <input type="number" bind:value=(entrants_age, set_entrants_age) />
+                <input type="number" min=4 max=16 bind:value=(entrants_age, set_entrants_age) />
                 <a href=embed_pdf_src download=PDF_FILENAME target="_blank">
                     <button type="button">"Save Pre-filled Entry Card PDF"</button>
                 </a>

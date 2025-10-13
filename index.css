@@ -60,6 +60,10 @@ html, body {
     border: solid;
     border-radius: 10px;
 
+    input[type="number"] {
+        max-width: 5em;
+    }
+
     a {
         margin: 0 auto;
         grid-column: span 2;
