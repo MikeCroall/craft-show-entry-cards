@@ -2,8 +2,11 @@ use crate::render::{TypstInputs, render_to_bytes};
 
 use base64::{Engine as _, engine::general_purpose};
 use leptos::prelude::*;
+use leptos_use::signal_debounced;
 
-fn some_if_not_blank(signal_in: ReadSignal<String>) -> Option<String> {
+const DEBOUNCE_MS: f64 = 250.;
+
+fn some_if_not_blank(signal_in: Signal<String>) -> Option<String> {
     Some(signal_in.get()).filter(|s| !s.trim().is_empty())
 }
 
@@ -13,10 +16,14 @@ pub fn App() -> impl IntoView {
     let (entrants_name, set_entrants_name) = signal("".to_string());
     let (entrants_age, set_entrants_age) = signal("".to_string());
 
+    let debounced_contact_details: Signal<String> = signal_debounced(contact_details, DEBOUNCE_MS);
+    let debounced_entrants_name: Signal<String> = signal_debounced(entrants_name, DEBOUNCE_MS);
+    let debounced_entrants_age: Signal<String> = signal_debounced(entrants_age, DEBOUNCE_MS);
+
     let base64_pdf = Memo::new(move |_| {
-        let contact_details = some_if_not_blank(contact_details);
-        let entrants_name = some_if_not_blank(entrants_name);
-        let entrants_age = some_if_not_blank(entrants_age);
+        let contact_details = some_if_not_blank(debounced_contact_details);
+        let entrants_name = some_if_not_blank(debounced_entrants_name);
+        let entrants_age = some_if_not_blank(debounced_entrants_age);
         let raw_pdf = render_to_bytes(TypstInputs {
             contact_details,
             entrants_name,
