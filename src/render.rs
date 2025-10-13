@@ -11,6 +11,7 @@ static FOLD_SVG: &[u8] = include_bytes!("../typst/icons/fold.svg");
 
 #[derive(Debug, Default, Clone, IntoValue, IntoDict)]
 pub struct TypstInputs {
+    pub title: String,
     pub contact_details: Option<String>,
     pub entrants_name: Option<String>,
     pub entrants_age: Option<String>,
@@ -48,6 +49,7 @@ mod tests {
     #[test]
     fn typst_compiles_with_inputs() {
         let _ = render_to_bytes(super::TypstInputs {
+            title: "test-file.pdf".to_string(),
             contact_details: Some("Example Contact Details".to_string()),
             entrants_name: None,
             entrants_age: Some("12".to_string()),

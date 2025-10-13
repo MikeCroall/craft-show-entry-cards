@@ -1,5 +1,8 @@
 #import sys: inputs
 
+#let doc_title = if ("title" in inputs) { inputs.title } else { "entry-card.pdf" }
+#set document(title: [#doc_title])
+
 #set page(margin: (
   rest: 0.5em,
 ))

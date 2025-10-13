@@ -5,6 +5,7 @@ use leptos::prelude::*;
 use leptos_use::signal_debounced;
 
 const DEBOUNCE_MS: f64 = 250.;
+const PDF_FILENAME: &str = "prefilled-entry-card.pdf";
 
 fn some_if_not_blank(signal_in: Signal<String>) -> Option<String> {
     Some(signal_in.get()).filter(|s| !s.trim().is_empty())
@@ -25,6 +26,7 @@ pub fn App() -> impl IntoView {
         let entrants_name = some_if_not_blank(debounced_entrants_name);
         let entrants_age = some_if_not_blank(debounced_entrants_age);
         let raw_pdf = render_to_bytes(TypstInputs {
+            title: PDF_FILENAME.to_string(),
             contact_details,
             entrants_name,
             entrants_age,
@@ -43,7 +45,7 @@ pub fn App() -> impl IntoView {
                 <input type="text" bind:value=(entrants_name, set_entrants_name) />
                 <label>"Entrant's Age"</label>
                 <input type="number" bind:value=(entrants_age, set_entrants_age) />
-                <a href=embed_pdf_src download="prefilled-entry-card.pdf" target="_blank">
+                <a href=embed_pdf_src download=PDF_FILENAME target="_blank">
                     <button type="button">"Save Pre-filled Entry Card PDF"</button>
                 </a>
             </div>
