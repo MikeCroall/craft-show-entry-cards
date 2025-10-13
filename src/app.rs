@@ -31,8 +31,7 @@ pub fn App() -> impl IntoView {
         });
         general_purpose::STANDARD.encode(&raw_pdf)
     });
-    let embed_pdf_src =
-        Memo::new(move |_| format!("data:application/pdf;base64,{}", base64_pdf.get()));
+    let embed_pdf_src = move || format!("data:application/pdf;base64,{}", base64_pdf.get());
 
     view! {
         <div id="outer-container">
