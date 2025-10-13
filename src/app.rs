@@ -28,8 +28,9 @@ pub fn App() -> impl IntoView {
         Memo::new(move |_| format!("data:application/pdf;base64,{}", base64_pdf.get()));
 
     view! {
-        <div class="outer-container">
-            <div class="inputs-container">
+        <div id="outer-container">
+            <PrivacyBanner />
+            <div id="inputs-container">
                 <label>"Contact Details"</label>
                 <input type="text" bind:value=(contact_details, set_contact_details) />
                 <label>"Entrant's Name"</label>
@@ -40,7 +41,26 @@ pub fn App() -> impl IntoView {
                     <button type="button">"Save Pre-filled Entry Card PDF"</button>
                 </a>
             </div>
-            <embed class="embed-pdf" src=embed_pdf_src title="Pre-filled Entry Card Preview" />
+            <embed id="embed-pdf" src=embed_pdf_src title="Pre-filled Entry Card Preview" />
         </div>
+    }
+}
+
+#[component]
+fn PrivacyBanner() -> impl IntoView {
+    let (show, set_show) = signal(true);
+
+    view! {
+        <Show when=move || show.get()>
+            <div id="privacy-banner" class:hidden=move || show.get()>
+                <div>
+                    <span class="emphasize space-after">"Privacy Notice"</span>
+                    "This tool does not transmit any data anywhere. All processing to generate the pre-filled pdf happens on your own device, and all data is lost when the page is closed so be sure to save your pre-filled pdf before leaving!"
+                </div>
+                <button type="button" on:click=move |_| set_show.set(false)>
+                    Dismiss
+                </button>
+            </div>
+        </Show>
     }
 }
