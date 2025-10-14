@@ -72,9 +72,9 @@
 
   gridRequestedData("Description or Title of Entry"),
   dottedLineFillWidth,
-  dottedLineFillWidth,
   gridRequestedData("Entrant's Name", value: entrants_name),
   gridRequestedData("Contact Details", value: contact_details),
+  dottedLineFillWidth,
 
   align(center, text(size: 10pt)[
     By entering, you agree to photos of your entry being used on our website
