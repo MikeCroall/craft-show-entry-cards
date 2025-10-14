@@ -3,9 +3,12 @@
 #let doc_title = if ("title" in inputs) { inputs.title } else { "entry-card.pdf" }
 #set document(title: [#doc_title])
 
-#set page(margin: (
-  rest: 0.5em,
-))
+#set page(
+  flipped: true,
+  margin: (
+    rest: 0.5em,
+  )
+)
 
 #set text(font: "Liberation Sans")
 
@@ -51,7 +54,7 @@
   dottedLineFillWidth,
   gridRequestedData("Entrant's Age", value: entrants_age),
 
-  align(center, text(weight: "bold")[
+  align(center, text(size: 20pt)[
     #underline(evade:false, offset: 1pt, [
       This side up for judging!
     ])
@@ -86,26 +89,26 @@
     rows: (1fr, 1fr),
     inset: 10pt,
 
-    align(right, rotate(90deg, reflow: true)[#judgesSideStack]), // top left
-    grid.vline(stroke:(paint: black, thickness: 1pt, dash: "loosely-dash-dotted")),
-    align(left, rotate(-90deg, reflow: true)[#contactSide]), // top right
-    grid.hline(stroke:(paint: black, thickness: 1pt)),
-    align(right, rotate(90deg, reflow: true)[#contactSide]), // bottom left
-    align(left, rotate(-90deg, reflow: true)[#judgesSideStack]), // bottom right
+    align(bottom, rotate(180deg, reflow: true)[#judgesSideStack]), // top left
+    grid.vline(stroke:(paint: black, thickness: 1pt)),
+    align(bottom, rotate(180deg, reflow: true)[#contactSide]), // top right
+    grid.hline(stroke:(paint: black, thickness: 1pt, dash: "loosely-dash-dotted")),
+    align(right, rotate(0deg, reflow: true)[#contactSide]), // bottom left
+    align(left, rotate(0deg, reflow: true)[#judgesSideStack]), // bottom right
   )
 ]
 
 #pageQuadrants
 
 #place(
-  horizon + left,
-  dx: 50% - 4em,
-  box(fill: white, image("icons/scissors.svg", height: 2em))
+  top + center,
+  dy: 50% - 4em,
+  box(fill: white, rotate(90deg, image("icons/scissors.svg", height: 2em)))
 )
 
 #place(
-  top + center,
-  dy: 50% - 4em,
-  box(fill: white, image("icons/fold.svg", height: 1.75em))
+  horizon + left,
+  dx: 50% - 4em,
+  box(fill: white, rotate(90deg, image("icons/fold.svg", height: 1.75em)))
 )
 
