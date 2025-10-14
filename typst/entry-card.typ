@@ -47,7 +47,7 @@
 
   header,
 
-  gridRequestedData("Class"),
+  gridRequestedData("Section"),
   dottedLineFillWidth,
   gridRequestedData("Entrant's Age", value: entrants_age),
 
