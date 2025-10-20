@@ -49,7 +49,12 @@ pub fn App() -> impl IntoView {
                     <button type="button">"Save Pre-filled Entry Card PDF"</button>
                 </a>
             </div>
-            <embed id="embed-pdf" src=embed_pdf_src title="Pre-filled Entry Card Preview" />
+            <embed
+                id="embed-pdf"
+                src=embed_pdf_src
+                type="application/pdf"
+                title="Pre-filled Entry Card Preview"
+            />
         </div>
     }
 }
