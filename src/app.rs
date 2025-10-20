@@ -68,7 +68,11 @@ fn PrivacyBanner() -> impl IntoView {
             <div id="privacy-banner" class:hidden=move || show.get()>
                 <div>
                     <span class="emphasize space-after">"Privacy Notice"</span>
-                    "This tool does not transmit any data anywhere. All processing to generate the pre-filled pdf happens on your own device, and all data is lost when the page is closed so be sure to save your pre-filled pdf before leaving!"
+                    "This tool does not transmit any data anywhere. All processing to generate the pre-filled pdf happens on your own device, and all data is lost when the page is closed so be sure to save your pre-filled pdf before leaving! This tool is "
+                    <a href="https://github.com/MikeCroall/craft-show-entry-cards" target="_blank">
+                        "open source"
+                    </a>
+                    "!"
                 </div>
                 <button type="button" on:click=move |_| set_show.set(false)>
                     Dismiss

@@ -43,6 +43,10 @@ html, body {
         margin-right: 1em;
     }
 
+    a {
+        color: #CAE9FF;
+    }
+
     button {
         height: fit-content;
     }
