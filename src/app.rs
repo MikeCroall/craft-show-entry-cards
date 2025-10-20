@@ -4,7 +4,7 @@ use base64::{Engine as _, engine::general_purpose};
 use leptos::prelude::*;
 use leptos_use::signal_debounced;
 
-const DEBOUNCE_MS: f64 = 250.;
+const DEBOUNCE_MS: f64 = 400.;
 const PDF_FILENAME: &str = "prefilled-entry-card.pdf";
 
 fn some_if_not_blank(signal_in: Signal<String>) -> Option<String> {
