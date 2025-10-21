@@ -21,6 +21,8 @@ pub fn App() -> impl IntoView {
     let debounced_entrants_name: Signal<String> = signal_debounced(entrants_name, DEBOUNCE_MS);
     let debounced_entrants_age: Signal<String> = signal_debounced(entrants_age, DEBOUNCE_MS);
 
+    // todo investigate using SVG for preview (but still pdf for saving) https://typst.app/docs/reference/svg/
+
     let base64_pdf = Memo::new(move |_| {
         let contact_details = some_if_not_blank(debounced_contact_details);
         let entrants_name = some_if_not_blank(debounced_entrants_name);
