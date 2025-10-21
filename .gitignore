@@ -1,4 +1,3 @@
 /target
 /dist
-example-entry-card.pdf
-entry-card-rust-out.pdf
+*.pdf
