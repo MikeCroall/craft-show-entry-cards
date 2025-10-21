@@ -107,7 +107,7 @@
       box(fill: white,
         stack(
           dir: ltr,
-          spacing: 1em,
+          spacing: 0.5em,
           align(horizon)[#text(size: 1.2em)[#displayText]],
           rotate(innerRot, image("icons/###.svg".replace("###", name), height: 1.75em))
         )
@@ -118,6 +118,8 @@
 
 #pageQuadrants
 
-#placeIcon(top + center, 0em, 50% - 7em, 90deg, 0deg, "scissors", "Cut here")
-#placeIcon(horizon + left, 50% - 10em, 0em, 0deg, 90deg, "fold", "Fold here")
+#placeIcon(top + center, 0em, 3.7em, 90deg, 0deg, "scissors", " Cut here")
+#placeIcon(top + center, 0em, 100% - 5.5em, 270deg, 0deg, "scissors", " Cut here")
+#placeIcon(horizon + left, 0.5em, 0em, 0deg, 90deg, "fold", " Fold here")
+#placeIcon(horizon + left, 100% - 8.2em, 0em, 180deg, 90deg, "fold", " Fold here")
 
