@@ -102,13 +102,29 @@
 
 #place(
   top + center,
-  dy: 50% - 4em,
-  box(fill: white, rotate(90deg, image("icons/scissors.svg", height: 2em)))
+  dy: 50% - 7em,
+  rotate(90deg,
+    box(fill: white,
+      stack(
+        dir: ltr,
+        spacing: 1em,
+        align(horizon)[#text(size: 1.2em)[Cut here]],
+        image("icons/scissors.svg", height: 2em)
+      )
+    )
+  )
 )
 
 #place(
   horizon + left,
-  dx: 50% - 4em,
-  box(fill: white, rotate(90deg, image("icons/fold.svg", height: 1.75em)))
+  dx: 50% - 10em,
+  box(fill: white,
+    stack(
+      dir: ltr,
+      spacing: 1em,
+      align(horizon)[#text(size: 1.2em)[Fold here]],
+      rotate(90deg, image("icons/fold.svg", height: 1.75em))
+    )
+  )
 )
 
