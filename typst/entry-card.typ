@@ -98,33 +98,26 @@
   )
 ]
 
-#pageQuadrants
-
-#place(
-  top + center,
-  dy: 50% - 7em,
-  rotate(90deg,
-    box(fill: white,
-      stack(
-        dir: ltr,
-        spacing: 1em,
-        align(horizon)[#text(size: 1.2em)[Cut here]],
-        image("icons/scissors.svg", height: 2em)
+#let placeIcon(alignments, dx, dy, outerRot, innerRot, name, displayText) = [
+  #place(
+    alignments,
+    dx: dx,
+    dy: dy,
+    rotate(outerRot,
+      box(fill: white,
+        stack(
+          dir: ltr,
+          spacing: 1em,
+          align(horizon)[#text(size: 1.2em)[#displayText]],
+          rotate(innerRot, image("icons/###.svg".replace("###", name), height: 1.75em))
+        )
       )
     )
   )
-)
+]
 
-#place(
-  horizon + left,
-  dx: 50% - 10em,
-  box(fill: white,
-    stack(
-      dir: ltr,
-      spacing: 1em,
-      align(horizon)[#text(size: 1.2em)[Fold here]],
-      rotate(90deg, image("icons/fold.svg", height: 1.75em))
-    )
-  )
-)
+#pageQuadrants
+
+#placeIcon(top + center, 0em, 50% - 7em, 90deg, 0deg, "scissors", "Cut here")
+#placeIcon(horizon + left, 50% - 10em, 0em, 0deg, 90deg, "fold", "Fold here")
 
