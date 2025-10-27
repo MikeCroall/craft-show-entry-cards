@@ -13,3 +13,9 @@ leptos-use = "0.16.3"
 typst = "0.13.1"
 typst-as-lib = "0.14.4"
 typst-pdf = "0.13.1"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+
