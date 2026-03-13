@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test"
+import { test, expect, Page } from "@playwright/test"
 
 test.describe("Entry Cards", () => {
     test.beforeEach(async ({ page }) => {
@@ -26,5 +26,34 @@ test.describe("Entry Cards", () => {
         await expect(banner).toBeInViewport()
     })
 
-    // todo test interaction with the actual form and download
+    test("typing contact details causes pdf render", async ({ page }) => {
+        await typingCausesPdfRender(page, "Contact Details", "John Smith")
+    })
+
+    test("typing entrant name causes pdf render", async ({ page }) => {
+        await typingCausesPdfRender(page, "Entrant's Name", "Timmy Smith")
+    })
+
+    test("typing entrant age causes pdf render", async ({ page }) => {
+        await typingCausesPdfRender(page, "Entrant's Age", "8")
+    })
+
+    test.skip("typing contact details and entrant name and age causes pdf text to contain them", async ({
+        page,
+    }) => {
+        // todo test interaction with the actual form and download
+    })
 })
+
+async function typingCausesPdfRender(
+    page: Page,
+    inputLabel: string,
+    fillValue: string,
+) {
+    const pdfEmbed = page.locator("#embed-pdf")
+    const pdfBefore = pdfEmbed.getAttribute("src")
+
+    await page.getByLabel(inputLabel).fill(fillValue)
+
+    await expect.poll(() => pdfEmbed.getAttribute("src")).not.toBe(pdfBefore)
+}

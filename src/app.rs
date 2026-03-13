@@ -39,12 +39,29 @@ pub fn App() -> impl IntoView {
         <div id="outer-container">
             <PrivacyBanner />
             <div id="inputs-container">
-                <label>"Contact Details"</label>
-                <input type="text" bind:value=(contact_details, set_contact_details) />
-                <label>"Entrant's Name"</label>
-                <input type="text" bind:value=(entrants_name, set_entrants_name) />
-                <label>"Entrant's Age"</label>
-                <input type="number" min=4 max=16 bind:value=(entrants_age, set_entrants_age) />
+                <label for="contact-details">"Contact Details"</label>
+                <input
+                    id="contact-details"
+                    type="text"
+                    bind:value=(contact_details, set_contact_details)
+                />
+
+                <label for="entrant-name">"Entrant's Name"</label>
+                <input
+                    id="entrant-name"
+                    type="text"
+                    bind:value=(entrants_name, set_entrants_name)
+                />
+
+                <label for="entrant-age">"Entrant's Age"</label>
+                <input
+                    id="entrant-age"
+                    type="number"
+                    min=4
+                    max=16
+                    bind:value=(entrants_age, set_entrants_age)
+                />
+
                 <a href=embed_pdf_src download=PDF_FILENAME target="_blank">
                     <button type="button">"Save Pre-filled Entry Card PDF"</button>
                 </a>

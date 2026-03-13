@@ -23,7 +23,7 @@ trunk serve --open
 
 ### Typst template
 
-The Typst file can be worked on separately with *much* faster hot-reloading (using [Typst CLI](https://github.com/typst/typst#installation)) by running:
+The Typst file can be worked on separately with _much_ faster hot-reloading (using [Typst CLI](https://github.com/typst/typst#installation)) by running:
 
 ```bash
 typst watch entry-card.typ --input=entrants_name="Some Name Here" --input=entrants_age="12"
