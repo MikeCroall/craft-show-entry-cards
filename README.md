@@ -35,4 +35,4 @@ Note the `--input=key=value` items are optional, and more can be added - one for
 
 ### GitHub Pages deployment
 
-The GitHub Pages deployment is automatically performed by any push to the default branch if the build, test, lint, and audit CI passes.
+The GitHub Pages deployment is automatically performed by any push to the default branch if all other CI passes.
