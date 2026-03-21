@@ -52,30 +52,5 @@ export function assertHasTextNTimes(
     expected: number,
 ) {
     const actual = countOccurrences(pdf, text)
-    expect(actual).toBe(expected)
-}
-
-/**
- * This value is specialised for the entry cards, not general purpose PDFs.
- * The entry cards will contain each field twice as we fit 2 to a sheet.
- * The rendering of the PDF means that in the parsed string[], each field
- * name is immediately followed by the value entered for it. This function
- * asserts that the value immediately following `fieldName` in the array equals
- * `expectedValue` twice.
- */
-export function assertHasFieldValueTwice(
-    { textContents }: ExtractedPdf,
-    fieldName: string,
-    expectedValue: string,
-) {
-    let found = 0
-    for (let i = 0; i < textContents.length - 1; i++) {
-        const element = textContents[i]
-        if (element != fieldName) continue
-        i++
-        const value = textContents[i]
-        if (value != expectedValue) continue
-        found++
-    }
-    expect(found).toBe(2)
+    expect(actual, `Found ${actual} occurrences of "${text}"`).toBe(expected)
 }

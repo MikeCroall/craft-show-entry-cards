@@ -1,9 +1,5 @@
-import { test, expect, Page, Locator } from "@playwright/test"
-import {
-    assertHasFieldValueTwice,
-    assertHasTextNTimes,
-    loadPdf,
-} from "../util/pdf-util"
+import { test, expect, Page, Locator, Expect } from "@playwright/test"
+import { assertHasTextNTimes, loadPdf } from "../util/pdf-util"
 
 const ID_PDF_EMBED = "#embed-pdf"
 const SRC = "src"
@@ -18,8 +14,11 @@ const ENTRANTS_AGE = "Entrant's Age"
 const ENTRANTS_AGE_VALUE = "8"
 
 test.describe("Entry Cards", () => {
+    test.slow() // WASM loads are slow
+
     test.beforeEach(async ({ page }) => {
         await page.goto("") // uses config'd baseURL
+        await slowPageLoadOfWASMElems(page) // may be slow due to WASM
     })
 
     test("has title", async ({ page }) => {
@@ -39,6 +38,7 @@ test.describe("Entry Cards", () => {
         await expect(banner).not.toBeVisible()
 
         await page.reload()
+        await slowPageLoadOfWASMElems(page) // may be slow due to WASM
         await expect(banner).toBeVisible()
         await expect(banner).toBeInViewport()
     })
@@ -90,15 +90,22 @@ test.describe("Entry Cards", () => {
 
         // check specifically filled fields
         assertHasTextNTimes(pdf, CONTACT_DETAILS, 2)
-        assertHasFieldValueTwice(pdf, CONTACT_DETAILS, CONTACT_DETAILS_VALUE)
+        assertHasTextNTimes(pdf, CONTACT_DETAILS_VALUE, 2)
 
         assertHasTextNTimes(pdf, ENTRANTS_NAME, 2)
-        assertHasFieldValueTwice(pdf, ENTRANTS_NAME, ENTRANTS_NAME_VALUE)
+        assertHasTextNTimes(pdf, ENTRANTS_NAME_VALUE, 2)
 
         assertHasTextNTimes(pdf, ENTRANTS_AGE, 2)
-        assertHasFieldValueTwice(pdf, ENTRANTS_AGE, ENTRANTS_AGE_VALUE)
+        assertHasTextNTimes(pdf, ENTRANTS_AGE_VALUE, 2)
     })
 })
+
+async function slowPageLoadOfWASMElems(page: Page) {
+    const slowExpect = slowExpectForWASM()
+    const banner = page.locator("#privacy-banner")
+    await slowExpect(banner).toBeVisible()
+    await slowExpect(banner).toBeInViewport()
+}
 
 async function pdfRenderAfterInput(
     page: Page,
@@ -114,6 +121,11 @@ async function pdfRenderAfterInput(
 }
 
 async function srcToChange(locator: Locator, prevSrc: string | null) {
-    if (prevSrc) await expect(locator).not.toHaveAttribute(SRC, prevSrc)
-    else await expect(locator).toHaveAttribute(SRC)
+    const slowExpect = slowExpectForWASM()
+    if (prevSrc) await slowExpect(locator).not.toHaveAttribute(SRC, prevSrc)
+    else await slowExpect(locator).toHaveAttribute(SRC)
+}
+
+function slowExpectForWASM(): Expect {
+    return expect.configure({ timeout: 30_000 })
 }

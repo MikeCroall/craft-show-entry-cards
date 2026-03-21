@@ -8,7 +8,7 @@ export default defineConfig({
     fullyParallel: true,
 
     forbidOnly: !!process.env.CI,
-    retries: 6, // firefox, webkit, and mobile safari are incredibly flaky on privacy banner test case
+    retries: 3, // firefox and webkit are unreasonably flaky
     workers: process.env.CI ? 1 : undefined,
 
     reporter: "html",
@@ -19,7 +19,6 @@ export default defineConfig({
 
         // Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer
         trace: "on-first-retry",
-        screenshot: "only-on-failure",
     },
 
     projects: [
