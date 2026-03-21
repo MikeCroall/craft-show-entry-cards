@@ -124,8 +124,8 @@ jobs:
                       ~/.cargo/registry/cache/
                       ~/.cargo/git/db/
                       target/
-                  key: ${{ runner.os }}-cargo-web-${{ hashFiles('**/Cargo.lock') }}
-                  restore-keys: ${{ runner.os }}-cargo-web-
+                  key: ${{ runner.os }}-cargo-web-release-${{ hashFiles('**/Cargo.lock') }}
+                  restore-keys: ${{ runner.os }}-cargo-web-release-
 
             - name: Install Rust Stable for WASM
               uses: actions-rs/toolchain@v1
