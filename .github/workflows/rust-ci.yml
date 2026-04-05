@@ -149,3 +149,15 @@ jobs:
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@v5
+
+    success:
+        name: Check success
+        needs: [build-test-lint-audit, playwright-tests, publish-github-pages]
+        if: always()
+        runs-on: ubuntu-slim
+        steps:
+            - name: Print all results
+              run: echo '${{ toJSON(needs) }}'
+            - name: Exit if any failures or cancellations
+              if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+              run: exit 1
