@@ -8,7 +8,7 @@ edition = "2024"
 base64 = "0.22.1"
 console_error_panic_hook = "0.1.7"
 derive_typst_intoval = "0.6.0"
-leptos = { version = "0.8.17", features = ["csr"] }
+leptos = { version = "0.8.19", features = ["csr"] }
 leptos-use = "0.18.3"
 typst = "0.14.2"
 typst-as-lib = "0.15.4"
