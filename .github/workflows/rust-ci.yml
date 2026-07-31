@@ -45,8 +45,11 @@ jobs:
               run: cargo clippy --verbose -- -D warnings
             - name: Check fmt
               run: cargo fmt --all -- --check
-            - name: Audit Rust Dependencies
-              uses: actions-rust-lang/audit@v1
+            - name: Install cargo-deny
+              uses: taiki-e/install-action@cargo-deny
+            - name: Check advisories
+              run: |
+                  cargo deny check advisories
 
     playwright-tests:
         name: Run Playwright Tests
