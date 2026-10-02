@@ -6,6 +6,7 @@ pub struct TypstInputs {
     pub contact_details: Option<String>,
     pub entrants_name: Option<String>,
     pub entrants_age: Option<String>,
+    pub section: Option<String>,
 }
 
 pub fn render_to_bytes(inputs: TypstInputs) -> Vec<u8> {
@@ -30,6 +31,7 @@ mod tests {
             title: "test-file.pdf".to_string(),
             contact_details: Some("Example Contact Details".to_string()),
             entrants_name: None,
+            section: Some("Sketch/Drawing".to_string()),
             entrants_age: Some("12".to_string()),
         });
     }

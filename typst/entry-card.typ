@@ -43,6 +43,7 @@
   )
 ]
 
+#let section = if ("section" in inputs) { inputs.section } else { none}
 #let entrants_age = if ("entrants_age" in inputs) { inputs.entrants_age } else { none }
 #let judgesSideStack = align(left, stack(
   dir: ttb,
@@ -50,7 +51,7 @@
 
   header,
 
-  gridRequestedData("Section"),
+  gridRequestedData("Section", value: section),
   dottedLineFillWidth,
   gridRequestedData("Entrant's Age", value: entrants_age),
 

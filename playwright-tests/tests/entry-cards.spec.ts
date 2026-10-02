@@ -13,6 +13,10 @@ const ENTRANTS_NAME_VALUE = "Timmy Smith"
 const ENTRANTS_AGE = "Entrant's Age"
 const ENTRANTS_AGE_VALUE = "8"
 
+const SECTION = "Section"
+const SECTION_VALUE = "Collage/Mixed Media"
+const DEFAULT_SECTION_VALUE = "None (or I don't know)"
+
 test.describe("Entry Cards", () => {
     test.slow() // WASM loads are slow
 
@@ -55,7 +59,40 @@ test.describe("Entry Cards", () => {
         await pdfRenderAfterInput(page, ENTRANTS_AGE, ENTRANTS_AGE_VALUE)
     })
 
-    test(`typing ${CONTACT_DETAILS} & ${ENTRANTS_NAME} & ${ENTRANTS_AGE} causes pdf text to contain them`, async ({
+    test(`entering ${SECTION} causes pdf render`, async ({ page }) => {
+        await pdfRenderAfterDropdown(page, SECTION, SECTION_VALUE)
+    })
+
+    test(`${SECTION}s are grouped (optgroup is unselectable), except the default 'None' option`, async ({
+        page,
+    }) => {
+        const sectionDropdown = page.locator("#section")
+        await expect(sectionDropdown).toBeVisible()
+        await expect(sectionDropdown).toBeInViewport()
+
+        expect(await sectionDropdown.inputValue()).toEqual(
+            DEFAULT_SECTION_VALUE,
+        )
+
+        const sectionDropdownChildren = await page.locator("#section > *").all()
+        for (const child of sectionDropdownChildren) {
+            const tagName = await child.evaluate(el => el.tagName)
+            switch (tagName) {
+                case "OPTION":
+                    expect(await child.innerText()).toEqual(
+                        DEFAULT_SECTION_VALUE,
+                    )
+                    break
+                case "OPTGROUP":
+                    const options = await child.getByRole("option").all()
+                    expect(options.length).toBeGreaterThanOrEqual(1) // no empty groups
+                    expect(options.length).toBeLessThan(6) // no groups too large
+                    break
+            }
+        }
+    })
+
+    test(`entering ${CONTACT_DETAILS} & ${ENTRANTS_NAME} & ${ENTRANTS_AGE} & ${SECTION} causes pdf text to contain them`, async ({
         page,
     }) => {
         const pdfEmbed = page.locator(ID_PDF_EMBED)
@@ -73,6 +110,10 @@ test.describe("Entry Cards", () => {
         await srcToChange(pdfEmbed, pdfSrc)
         pdfSrc = await pdfEmbed.getAttribute(SRC)
 
+        await page.getByLabel(SECTION).selectOption(SECTION_VALUE)
+        await srcToChange(pdfEmbed, pdfSrc)
+        pdfSrc = await pdfEmbed.getAttribute(SRC)
+
         const downloadPromise = page.waitForEvent("download")
         await page.getByText("Save Pre-filled Entry Card PDF").click()
         const download = await downloadPromise
@@ -83,7 +124,6 @@ test.describe("Entry Cards", () => {
         expect(pdf.pageCount).toBe(1)
 
         // quick sense check of some contained text
-        assertHasTextNTimes(pdf, "Section", 2)
         assertHasTextNTimes(pdf, "This side up for judging!", 2)
         assertHasTextNTimes(pdf, "Cut here", 2)
         assertHasTextNTimes(pdf, "Fold here", 2)
@@ -97,6 +137,9 @@ test.describe("Entry Cards", () => {
 
         assertHasTextNTimes(pdf, ENTRANTS_AGE, 2)
         assertHasTextNTimes(pdf, ENTRANTS_AGE_VALUE, 2)
+
+        assertHasTextNTimes(pdf, SECTION, 2)
+        assertHasTextNTimes(pdf, SECTION_VALUE, 2)
     })
 })
 
@@ -112,10 +155,26 @@ async function pdfRenderAfterInput(
     inputLabel: string,
     fillValue: string,
 ) {
+    await pdfRenderAfterAction(page, () =>
+        page.getByLabel(inputLabel).fill(fillValue),
+    )
+}
+
+async function pdfRenderAfterDropdown(
+    page: Page,
+    inputLabel: string,
+    selectValue: string,
+) {
+    await pdfRenderAfterAction(page, () =>
+        page.getByLabel(inputLabel).selectOption(selectValue),
+    )
+}
+
+async function pdfRenderAfterAction(page: Page, action: Function) {
     const pdfEmbed = page.locator(ID_PDF_EMBED)
     const pdfBefore = await pdfEmbed.getAttribute(SRC)
 
-    await page.getByLabel(inputLabel).fill(fillValue)
+    await action()
 
     await srcToChange(pdfEmbed, pdfBefore)
 }

@@ -1,5 +1,6 @@
 mod app;
 mod render;
+mod sections;
 
 use app::App;
 
