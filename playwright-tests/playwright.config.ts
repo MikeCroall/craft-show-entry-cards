@@ -58,7 +58,7 @@ export default defineConfig({
     webServer: {
         name: "trunk serve",
         cwd: "../",
-        command: "trunk serve",
+        command: "trunk serve --no-autoreload",
         url: "http://localhost:8080/craft-show-entry-cards/",
         reuseExistingServer: !process.env.CI,
         stdout: "pipe",
