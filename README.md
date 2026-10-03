@@ -15,7 +15,7 @@ costs and preserving data privacy for the users.
 
 ### Client-side pre-filled PDF generator webpage
 
-To run a local (slowly) hot-reloading server and automatically open a browser tab to the right local address (using [Trunk](https://trunkrs.dev/)), run:
+To run a local (slowly) hot-reloading server and automatically open a browser tab to the right local address (using [Trunk](https://trunk-rs.github.io/trunk/)), run:
 
 ```bash
 trunk serve --open
