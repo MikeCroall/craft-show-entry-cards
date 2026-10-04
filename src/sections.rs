@@ -91,7 +91,9 @@ impl Section {
     }
 
     pub fn all_sections_with_specials_from_file() -> impl Iterator<Item = Section> {
-        Self::all_sections_with_specials_from_file_content(include_str!("../res/special-class.txt"))
+        Self::all_sections_with_specials_from_file_content(include_str!(
+            "../res/special-classes.txt"
+        ))
     }
 
     fn all_sections_with_specials_from_file_content(

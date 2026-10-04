@@ -33,6 +33,12 @@ and opening the entry-card.pdf that it writes to disk.
 
 Note the `--input=key=value` items are optional, and more can be added - one for each key that the typst file checks for in the inputs object!
 
+### Special Classes
+
+Special classes are loaded dynamically from `res/special-classes.txt` at build time. These must be newline separated, and each must be unique.
+
+To have no special class for a given year, leave the file present but empty.
+
 ### GitHub Pages deployment
 
 The GitHub Pages deployment is automatically performed by any push to the default branch if all other CI passes.
