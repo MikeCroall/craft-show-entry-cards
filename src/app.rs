@@ -17,43 +17,42 @@ fn some_if_not_blank(signal_in: Signal<String>) -> Option<String> {
 }
 
 fn sections_iter_to_view(iter: Vec<Section>) -> impl IntoView {
-    iter.iter().map(
-        |section| view! { <option value={section.to_string()}>{section.display_name()}</option>},
-    )
-    .collect::<Vec<_>>()
+    iter.iter()
+        .map(|section| view! { <option value=section.to_string()>{section.to_string()}</option> })
+        .collect::<Vec<_>>()
+}
+
+fn optgroup_gen(group: SectionGroup, sections: Vec<Section>) -> impl IntoView {
+    view! { <optgroup label=group.to_string()>{sections_iter_to_view(sections)}</optgroup> }
+}
+
+fn group_gen(group_opt: Option<SectionGroup>, sections: Vec<Section>) -> impl IntoView {
+    match group_opt {
+        Some(group) => optgroup_gen(group, sections).into_any(),
+        None => sections_iter_to_view(sections).into_any(),
+    }
+}
+
+fn grouped_sections() -> HashMap<Option<SectionGroup>, Vec<Section>> {
+    Section::all_sections_with_specials_from_file().fold(HashMap::new(), |mut map, section| {
+        map.entry(section.group()).or_default().push(section);
+        map
+    })
 }
 
 fn section_options() -> impl IntoView {
-    let mut grouped_sections: HashMap<_, Vec<_>> =
-        Section::iter().fold(HashMap::new(), |mut map, section| {
-            map.entry(section.group()).or_default().push(section);
-            map
-        });
-
-    let optgroup_gen = move |group: SectionGroup, sections: Vec<Section>| {
-        view! {
-            <optgroup label=group.to_string()>
-                { sections_iter_to_view(sections) }
-            </optgroup>
-        }
-    };
-
-    let group_gen = move |group_opt: Option<SectionGroup>, sections: Vec<Section>| match group_opt {
-        Some(group) => optgroup_gen(group, sections).into_any(),
-        None => sections_iter_to_view(sections).into_any(),
-    };
+    let mut grouped_sections = grouped_sections();
 
     view! {
-        {
-            SectionGroup::iter()
-                .map(Some)
-                .chain(iter::once(None))
-                .map(|group_opt| {
-                    let sections = grouped_sections.remove(&group_opt).expect("group_opt must exist");
-                    group_gen(group_opt, sections)
-                })
-                .collect_view()
-        }
+        {SectionGroup::iter()
+            .map(Some)
+            .chain(iter::once(None))
+            .filter_map(|group_opt| {
+                grouped_sections.remove(&group_opt).map(|sections| (group_opt, sections))
+            })
+            .filter(|(_, sections)| !sections.is_empty())
+            .map(|(group_opt, sections)| { group_gen(group_opt, sections) })
+            .collect_view()}
     }
 }
 
@@ -116,11 +115,12 @@ pub fn App() -> impl IntoView {
                     name="section"
                     id="section"
                     on:change:target=move |ev| {
-                        set_section.set(ev.target().value().parse().expect("options auto generated from the enum so must be valid unless tampered"));
+                        set_section
+                            .set(Section::parse_assuming_special_if_no_match(&ev.target().value()));
                     }
                     prop:value=move || section.get().to_string()
                 >
-                    { section_options() }
+                    {section_options()}
                 </select>
 
                 <a href=embed_pdf_src download=PDF_FILENAME target="_blank">
