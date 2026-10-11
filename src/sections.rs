@@ -5,7 +5,7 @@ use strum::IntoEnumIterator;
     Debug, Clone, Copy, PartialEq, Eq, Hash, strum_macros::Display, strum_macros::EnumIter,
 )]
 pub enum SectionGroup {
-    #[strum(serialize = "Special Classes (this year only!)")]
+    #[strum(serialize = "Special Classes (for one year only!)")]
     Special,
 
     #[strum(serialize = "Any Picture")]
@@ -184,7 +184,7 @@ mod tests {
 
     #[test]
     fn every_section_including_specials_from_real_specials_file_serialises_uniquely() {
-        let sections = Section::all_sections_with_specials_from_file().collect::<Vec<_>>();
+        let sections: Vec<_> = Section::all_sections_with_specials_from_file().collect();
 
         let unique_serialised: HashSet<_> = sections.iter().map(|s| s.to_string()).collect();
         let total_unique = unique_serialised.len();
