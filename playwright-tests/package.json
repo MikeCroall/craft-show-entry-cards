@@ -10,7 +10,7 @@
     "type": "commonjs",
     "devDependencies": {
         "@playwright/test": "^1.60.0",
-        "@tsconfig/node-lts": "^24.0.0",
+        "@tsconfig/node-lts": "^26.0.1",
         "@types/node": "26.6.6",
         "pdfjs-dist": "^5.5.207",
         "typescript": "^7.0.2"
