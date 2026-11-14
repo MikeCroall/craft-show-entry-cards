@@ -4,6 +4,11 @@ updates:
       directory: "playwright-tests/"
       schedule:
           interval: "monthly"
+      groups:
+          production-dependencies:
+              dependency-type: "production"
+          development-dependencies:
+              dependency-type: "development"
 
     - package-ecosystem: "cargo"
       directory: "/"
