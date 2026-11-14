@@ -1,5 +1,10 @@
 version: 2
 updates:
+    - package-ecosystem: "npm"
+      directory: "playwright-tests/"
+      schedule:
+          interval: "monthly"
+
     - package-ecosystem: "cargo"
       directory: "/"
       schedule:
@@ -15,6 +20,8 @@ updates:
       schedule:
           interval: "monthly"
       groups:
-        actions-deps:
-          patterns:
-            - "*"
+          actions:
+              patterns:
+                  - "*"
+      cooldown:
+          default-days: 7
