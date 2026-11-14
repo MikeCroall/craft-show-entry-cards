@@ -5,7 +5,7 @@ use crate::{
 
 use base64::{Engine as _, engine::general_purpose};
 use leptos::prelude::*;
-use leptos_use::signal_debounced;
+use leptos_use_signal_debounce_throttle::signal_debounced;
 use std::{collections::HashMap, iter};
 use strum::IntoEnumIterator as _;
 
