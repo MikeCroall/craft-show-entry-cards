@@ -8,7 +8,7 @@ type ExtractedPdf = {
 }
 
 export async function loadPdf(pdfPath: string): Promise<ExtractedPdf> {
-    const doc = await getDocument(pdfPath).promise
+    const doc = await getDocument({ url: pdfPath }).promise
     const pageCount = doc.numPages
     const textContents: string[] = []
 

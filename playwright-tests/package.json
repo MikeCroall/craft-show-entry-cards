@@ -12,7 +12,7 @@
         "@playwright/test": "^1.65.1",
         "@tsconfig/node-lts": "^26.0.1",
         "@types/node": "26.6.6",
-        "pdfjs-dist": "^5.5.207",
+        "pdfjs-dist": "^6.5.438",
         "typescript": "^7.0.2"
     }
 }
