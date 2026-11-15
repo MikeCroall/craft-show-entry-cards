@@ -54,15 +54,26 @@ export default defineConfig({
         // },
     ],
 
-    // Run the local dev server before starting the tests
-    webServer: {
-        name: "trunk serve",
-        cwd: "../",
-        command: "trunk serve --no-autoreload",
-        url: "http://localhost:8080/craft-show-entry-cards/",
-        reuseExistingServer: !process.env.CI,
-        stdout: "pipe",
-        stderr: "pipe",
-        timeout: 300_000,
-    },
+    webServer: process.env.CI
+        ? {
+              // CI: serve the prebuilt release page (downloaded to ../site/craft-show-entry-cards)
+              name: "static server",
+              command: "npx http-server ../site -p 8080 -c-1",
+              url: "http://localhost:8080/craft-show-entry-cards/",
+              reuseExistingServer: false,
+              stdout: "pipe",
+              stderr: "pipe",
+              timeout: 30_000,
+          }
+        : {
+              // Local: run the dev server before starting the tests
+              name: "trunk serve",
+              cwd: "../",
+              command: "trunk serve --no-autoreload",
+              url: "http://localhost:8080/craft-show-entry-cards/",
+              reuseExistingServer: true,
+              stdout: "pipe",
+              stderr: "pipe",
+              timeout: 300_000,
+          },
 })

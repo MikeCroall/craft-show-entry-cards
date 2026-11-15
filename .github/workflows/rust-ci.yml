@@ -76,8 +76,34 @@ jobs:
               run: cargo nextest run --workspace --all-features
             # Skipping doc tests due to no lib targets (`cargo test --doc --workspace --all-features`)
 
+    build-wasm:
+        name: Build wasm page
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            - uses: dtolnay/rust-toolchain@stable
+              with:
+                  targets: wasm32-unknown-unknown
+            - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+              with:
+                  save-if: ${{ github.ref == 'refs/heads/main' }}
+            - uses: taiki-e/install-action@cfdb7ed4ccc7c7dce37759eae89dc5674b469b39 # v2.90.3
+              with:
+                  tool: trunk
+            - run: trunk build --release
+            - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+              with:
+                  name: dist
+                  path: dist/
+                  retention-days: 1
+            - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+              if: github.ref_name == github.event.repository.default_branch
+              with:
+                  path: "./dist"
+
     playwright-tests:
         name: Playwright tests
+        needs: build-wasm
         runs-on: ubuntu-latest
 
         timeout-minutes: 60
@@ -87,20 +113,15 @@ jobs:
 
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-            - uses: dtolnay/rust-toolchain@stable
+            - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
               with:
-                  targets: wasm32-unknown-unknown
-            - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
-              with:
-                  save-if: ${{ github.ref == 'refs/heads/main' }}
+                  name: dist
+                  path: site/craft-show-entry-cards
             - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
               with:
                   node-version: 26
                   cache: npm
                   cache-dependency-path: playwright-tests/package-lock.json
-            - uses: taiki-e/install-action@cfdb7ed4ccc7c7dce37759eae89dc5674b469b39 # v2.90.3
-              with:
-                  tool: trunk
             - name: Install dependencies
               run: npm ci
             - name: Install Playwright Browsers
@@ -116,14 +137,13 @@ jobs:
 
     publish-github-pages:
         name: Deploy to GitHub Pages
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-slim
 
         needs: [fmt, deps, clippy, test, playwright-tests]
 
         if: github.ref_name == github.event.repository.default_branch
 
         permissions:
-            contents: read
             id-token: write
             pages: write
 
@@ -132,28 +152,22 @@ jobs:
             url: ${{ steps.deployment.outputs.page_url }}
 
         steps:
-            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-            - uses: dtolnay/rust-toolchain@stable
-              with:
-                  targets: wasm32-unknown-unknown
-            - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
-              with:
-                  save-if: ${{ github.ref == 'refs/heads/main' }}
-            - uses: taiki-e/install-action@cfdb7ed4ccc7c7dce37759eae89dc5674b469b39 # v2.90.3
-              with:
-                  tool: trunk
-            - run: |
-                  trunk build --release
-            - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
-              with:
-                  path: "./dist"
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
 
     success:
         name: Check success
-        needs: [fmt, deps, clippy, test, playwright-tests, publish-github-pages]
+        needs:
+            [
+                fmt,
+                deps,
+                clippy,
+                test,
+                build-wasm,
+                playwright-tests,
+                publish-github-pages,
+            ]
         if: always()
         runs-on: ubuntu-slim
         env:
