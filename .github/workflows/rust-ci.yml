@@ -100,6 +100,7 @@ jobs:
               if: github.ref_name == github.event.repository.default_branch
               with:
                   path: "./dist"
+                  if-no-files-found: error
 
     playwright-tests:
         name: Playwright tests
